@@ -1,6 +1,7 @@
 # program name  : Hindu Editorial scraper
 # date          : Mon Jul 10 00:25:10 IST 2017
 
+import re
 import requests
 from bs4 import BeautifulSoup
 import urllib.request
@@ -24,8 +25,13 @@ for link in links:
 # for link in editorial_links:
 #     print(link)
 # print(editorial_links)
+tag_re = re.compile(r'<[^>]+>')
 
-editorial_count = int(input("how many editorials you want to read\n"))
+def remove_tags(text):
+    return tag_re.sub('', text)
+
+editorial_count = int(input("how many editorials you want to read\n:>"))
+print("----------------------------")
 i = 0
 while editorial_count > 0:
     response = requests.get(editorial_links[i])
@@ -33,7 +39,8 @@ while editorial_count > 0:
     page2 = response.content
     soup = BeautifulSoup(page2, "lxml")
     content = soup.findAll("p")
-    print(content[0])
+    # print(type(content[0]))
+    print(remove_tags(str(content[0])))
     i += 1
     editorial_count -= 1
     print("---------------------------------------")
