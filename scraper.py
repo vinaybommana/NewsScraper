@@ -6,6 +6,13 @@ import requests
 from bs4 import BeautifulSoup
 import urllib.request
 
+# functions
+
+def remove_tags(text):
+    return tag_re.sub('', text)
+
+###############
+
 response = requests.get('http://www.thehindu.com/opinion/editorial/')
 page1 = response.content
 soup = BeautifulSoup(page1, "lxml")
@@ -27,9 +34,6 @@ for link in links:
 #     print(link)
 # print(editorial_links)
 tag_re = re.compile(r'<[^>]+>')
-
-def remove_tags(text):
-    return tag_re.sub('', text)
 
 print("\n Welcome to Hindu Editorial scraper \n")
 user_input = input("latest(l) | specific(s)\n:>")
