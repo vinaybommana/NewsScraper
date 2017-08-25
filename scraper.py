@@ -43,14 +43,17 @@ if user_input == "latest" or user_input == "l":
     print("---------------------------------------")
     i = 0
     while editorial_count > 0:
-        response = requests.get(editorial_links[i])
+        response = requests.get(editorial_links[i] + '?homepage=true')
         # print(editorial_links[i])
         page2 = response.content
         soup = BeautifulSoup(page2, "lxml")
         content = soup.findAll("p")
         # print(type(content[0]))
+        number_of_paragraphs = len(content)
+        number_of_paragraphs -= 3
         print("Editorial " + str(i + 1) + "\n")
-        print(remove_tags(str(content[0])))
+        for n in range(number_of_paragraphs) :
+            print(remove_tags(str(content[n])))
         print("---------------------------------------")
         i += 1
         editorial_count -= 1
@@ -58,12 +61,15 @@ if user_input == "latest" or user_input == "l":
 elif user_input == "specific" or user_input == "s":
     editorial_number = int(input("Which editorial do you want to read\n:>"))
     if editorial_number > 0:
-        response = requests.get(editorial_links[editorial_number - 1])
+        response = requests.get(editorial_links[editorial_number - 1] + '?homepage=true')
         page2 = response.content
         soup = BeautifulSoup(page2, "lxml")
         content = soup.findAll("p")
+        number_of_paragraphs = len(content)
+        number_of_paragraphs -= 3
         print("----------------------------")
-        print(remove_tags(str(content[0])))
+        for n in range(number_of_paragraphs) :
+            print(remove_tags(str(content[n])))
         print("----------------------------")
 
 else:
