@@ -4,14 +4,15 @@
 import re
 import requests
 from bs4 import BeautifulSoup
-import urllib.request
+# import urllib.request
+
 
 # functions
-
 def remove_tags(text):
     return tag_re.sub('', text)
 
 ###############
+
 
 response = requests.get('http://www.thehindu.com/opinion/editorial/')
 page1 = response.content
@@ -52,7 +53,7 @@ if user_input == "latest" or user_input == "l":
         number_of_paragraphs = len(content)
         number_of_paragraphs -= 3
         print("Editorial " + str(i + 1) + "\n")
-        for n in range(number_of_paragraphs) :
+        for n in range(number_of_paragraphs):
             print(remove_tags(str(content[n])))
         print("---------------------------------------")
         i += 1
@@ -61,14 +62,15 @@ if user_input == "latest" or user_input == "l":
 elif user_input == "specific" or user_input == "s":
     editorial_number = int(input("Which editorial do you want to read\n:>"))
     if editorial_number > 0:
-        response = requests.get(editorial_links[editorial_number - 1] + '?homepage=true')
+        response = requests.get(
+            editorial_links[editorial_number - 1] + '?homepage=true')
         page2 = response.content
         soup = BeautifulSoup(page2, "lxml")
         content = soup.findAll("p")
         number_of_paragraphs = len(content)
         number_of_paragraphs -= 3
         print("----------------------------")
-        for n in range(number_of_paragraphs) :
+        for n in range(number_of_paragraphs):
             print(remove_tags(str(content[n])))
         print("----------------------------")
 
