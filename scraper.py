@@ -9,6 +9,9 @@ from bs4 import BeautifulSoup
 
 # functions
 def remove_tags(text):
+    """
+    removes the <tags> from the given text
+    """
     return tag_re.sub('', text)
 
 ###############
@@ -34,6 +37,8 @@ for link in links:
 # for link in editorial_links:
 #     print(link)
 # print(editorial_links)
+
+# the regular expression for <tags>
 tag_re = re.compile(r'<[^>]+>')
 
 print("\n Welcome to Hindu Editorial scraper \n")
