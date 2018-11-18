@@ -67,6 +67,7 @@ class HinduScraper(Scraper):
                 # print(type(link.get('href')))
                 except Exception:
                     pass
+            return editorial_links
 
     def get_latest_editorial(self):
         if self.input_args in ["latest", "l"]:
@@ -74,7 +75,6 @@ class HinduScraper(Scraper):
             print("---------------------------------------")
             i = 0
             editorial_links = self.get_editorial_links()
-            print(editorial_links)
             while editorial_count > 0:
                 response = requests.get(editorial_links[i] + '?homepage=true')
                 # print(editorial_links[i])
@@ -83,10 +83,17 @@ class HinduScraper(Scraper):
                 content = soup.findAll("p")
                 # print(type(content[0]))
                 number_of_paragraphs = len(content)
+                # removing the last three tags
                 number_of_paragraphs -= 3
                 print("Editorial " + str(i + 1) + "\n")
+                elements = []
                 for n in range(number_of_paragraphs):
-                    print(self.remove_tags(str(content[n])))
+                    elements.append(self.remove_tags(str(content[n])))
+                time = elements[len(elements) - 1]
+                elements = [i for i in elements if not i.startswith("\n")]
+                for item in elements:
+                    print(item)
+                print(time)
                 print("---------------------------------------")
                 i += 1
                 editorial_count -= 1
@@ -104,8 +111,14 @@ class HinduScraper(Scraper):
                 number_of_paragraphs = len(content)
                 number_of_paragraphs -= 3
                 print("----------------------------")
+                elements = []
                 for n in range(number_of_paragraphs):
-                    print(self.remove_tags(str(content[n])))
+                    elements.append(self.remove_tags(str(content[n])))
+                time = elements[len(elements) - 1]
+                elements = [i for i in elements if not i.startswith("\n")]
+                for item in elements:
+                    print(item)
+                print(time)
                 print("----------------------------")
 
     def read_editorials(self):
