@@ -14,8 +14,6 @@ def remove_tags(text):
     """
     return tag_re.sub('', text)
 
-###############
-
 
 response = requests.get('http://www.thehindu.com/opinion/editorial/')
 page1 = response.content
