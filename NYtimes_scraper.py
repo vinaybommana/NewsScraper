@@ -1,5 +1,5 @@
 # from datetime import datetime, date, time
-# from typing import List
+from typing import List
 # from bs4 import BeautifulSoup
 # import calendar
 import requests
