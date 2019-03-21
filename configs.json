@@ -1,3 +1,4 @@
 {
-    "ny-api-key": "52b1c21e060348b2a11e41b24d08c891"
+    "ny-api-key": "52b1c21e060348b2a11e41b24d08c891",
+    "ny-ar-url": "https://api.nytimes.com/svc/search/v2/articlesearch.json"
 }

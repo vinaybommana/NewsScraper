@@ -5,17 +5,17 @@ from typing import List
 import json
 import os
 import sys
-import Scraper
 
 working_dir = os.path.dirname(os.path.abspath(__file__))
 # print(working_dir)
 
 sys.path.append(os.path.abspath(os.path.join("..", "utils")))
+sys.path.append(os.path.abspath(os.path.join("..", "Scraper")))
+
 # print(sys.path)
 
 import utils
-
-urls = {"nytimes": "https://api.nytimes.com/svc/search/v2/articlesearch.json"}
+from Scraper import Scraper
 
 
 b_date, e_date = utils.form_dates("week")
@@ -28,16 +28,15 @@ with open(os.path.join("../configs.json")) as w:
 
 # globals
 api_key = config_data["ny-api-key"]
-
-params = {"api-key": api_key, "q": "", "begin_date": b_date, "end_date": e_date}
-
-
-class NYScraper(object):
-    pass
+ny_url = config_data["ny-ar-url"]
 
 
 class ClassicNYScraper(Scraper):
-    """ NYScraper primitive class. """
+    """ NYScraper primitive class.
+
+    Usage:
+        ClassicNYScraper(urls, params)
+    """
 
     def __init__(self, urls: str, params: dict) -> None:
         super().__init__(urls)
@@ -45,6 +44,8 @@ class ClassicNYScraper(Scraper):
         if "nytimes" in self.urls.keys():
             self.url = self.urls["nytimes"]
         self.params = params
+        self.give_query_to_params()
+        # print(self.params)
 
     def get_nytimes_doc_weburls(self) -> List:
         """ Return NYTimes response --> doc --> web_urls """
@@ -57,18 +58,19 @@ class ClassicNYScraper(Scraper):
 
         return web_urls
 
+    @staticmethod
+    def get_query() -> List:
+        """ return command line argument list. """
+        if len(sys.argv) <= 1:
+            print("Please provide valid query arguments.")
+            sys.exit(0)
+        return sys.argv[1:]
 
-def get_query() -> List:
-    """ return command line argument list. """
-    return sys.argv[1:]
-
-
-def give_query_to_params() -> None:
-    """ add query from command line argument to params. """
-    queries = get_query()
-    if len(queries) == 1:
-        params["q"] = queries[0]
-    # print(params)
+    def give_query_to_params(self) -> None:
+        """ add query from command line argument to params. """
+        queries = self.get_query()
+        if len(queries) == 1:
+            self.params["q"] = queries[0]
 
 
 def give_content_from_link(url: str) -> str:
@@ -78,6 +80,8 @@ def give_content_from_link(url: str) -> str:
     pass
 
 
-print(params)
-give_query_to_params()
-print(params)
+urls = {"nytimes": ny_url}
+params = {"api-key": api_key, "q": "", "begin_date": b_date, "end_date": e_date}
+
+scraper = ClassicNYScraper(urls, params)
+# print(scraper.get_nytimes_doc_weburls())
