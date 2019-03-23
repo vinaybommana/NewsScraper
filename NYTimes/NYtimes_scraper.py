@@ -73,12 +73,15 @@ class ClassicNYScraper(Scraper):
         if len(queries) == 1:
             self.params["q"] = queries[0]
 
+    def give_content_from_link(self, link: str) -> str:
+        """ overriding parent class """
+        link_data = ""
+        content = super().give_content_from_link(link)
+        for para in content:
+            link_data += self.remove_tags(str(para))
+            link_data += "\n"
 
-def give_content_from_link(url: str) -> str:
-    """ Read the content from the link given.
-        Requires Beautiful Soup Library.
-    """
-    pass
+        return link_data
 
 
 urls = {"nytimes": ny_url}
@@ -87,4 +90,5 @@ params = {"api-key": api_key, "q": "", "begin_date": b_date, "end_date": e_date}
 
 if __name__ == "__main__":
     scraper = ClassicNYScraper(urls, params)
-# print(scraper.get_nytimes_doc_weburls())
+    links = scraper.get_nytimes_doc_weburls()
+    print(scraper.give_content_from_link(links[0]))

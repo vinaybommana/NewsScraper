@@ -1,5 +1,7 @@
 import re
 import requests
+from bs4 import BeautifulSoup
+from typing import List
 
 
 class Scraper(object):
@@ -26,3 +28,14 @@ class Scraper(object):
         """
         tag_re = re.compile(r"<[^>]+>")
         return tag_re.sub("", text)
+
+    def give_content_from_link(self, url: str) -> List:
+        """ Read the content from the link given.
+            Requires Beautiful Soup Library.
+        """
+        response = self.get_page_content(url)
+        page_content = response.content
+        soup = BeautifulSoup(page_content, "lxml")
+        content = soup.findAll("p")
+
+        return content
