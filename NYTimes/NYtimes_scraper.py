@@ -18,7 +18,7 @@ import utils
 from Scraper import Scraper
 
 
-b_date, e_date = utils.form_dates("week")
+b_date, e_date = utils.form_dates(range="week")
 # print(b_date, e_date)
 
 # load configs
@@ -44,7 +44,8 @@ class ClassicNYScraper(Scraper):
         if "nytimes" in self.urls.keys():
             self.url = self.urls["nytimes"]
         self.params = params
-        self.give_query_to_params()
+        if not self.params["q"]:
+            self.give_query_to_params()
         # print(self.params)
 
     def get_nytimes_doc_weburls(self) -> List:
@@ -83,5 +84,7 @@ def give_content_from_link(url: str) -> str:
 urls = {"nytimes": ny_url}
 params = {"api-key": api_key, "q": "", "begin_date": b_date, "end_date": e_date}
 
-scraper = ClassicNYScraper(urls, params)
+
+if __name__ == "__main__":
+    scraper = ClassicNYScraper(urls, params)
 # print(scraper.get_nytimes_doc_weburls())
