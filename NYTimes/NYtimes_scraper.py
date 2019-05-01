@@ -17,7 +17,6 @@ sys.path.append(os.path.abspath(os.path.join("..", "Scraper")))
 import utils
 from Scraper import Scraper
 
-
 b_date, e_date = utils.form_dates(range="week")
 # print(b_date, e_date)
 
@@ -85,8 +84,12 @@ class ClassicNYScraper(Scraper):
 
 
 urls = {"nytimes": ny_url}
-params = {"api-key": api_key, "q": "", "begin_date": b_date, "end_date": e_date}
-
+params = {
+    "api-key": api_key,
+    "q": "",
+    "begin_date": b_date,
+    "end_date": e_date
+}
 
 if __name__ == "__main__":
     scraper = ClassicNYScraper(urls, params)
