@@ -8,6 +8,7 @@ sys.path.append(os.path.abspath(os.path.join("..", "Scraper")))
 
 from Scraper import Scraper
 
+
 class HinduScraper(Scraper):
     """
     inherits from Scraper class and contains
